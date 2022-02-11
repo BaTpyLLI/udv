@@ -1,0 +1,20 @@
+version: '3'
+services:
+    nginx:
+        build:
+          context: .
+          dockerfile: ./images/nginx
+        ports:
+            - "9999:80"
+        volumes:
+            - ./conf.d:/etc/nginx/http.d/
+            - ./www:/var/www
+        links:
+            - php
+    php:
+        build: 
+          context: .
+          dockerfile: ./images/php
+        volumes:
+            - ./www:/var/www
+            - ./pool.d:/etc/php7/php-fpm.d
