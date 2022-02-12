@@ -29,22 +29,22 @@
       repo: https://github.com/BaTpyLLI/udv.git
       dest: /tmp/Git
 
-  - name: Build image nginx + php on alpine
+  - name: Build nginx + php-fpm on alpine in one image
     community.docker.docker_image: 
-      name: nginx-php
+      name: nginx-php-fpm
       build:
         path: /tmp/Git/Docker/alpine
       source: build
-    tags: alpine
+    tags: nginx-php-fpm
 
-  - name: Start container nginx + php
+  - name: Start container nginx + php-fpm
     community.docker.docker_container:
       name: web-site
-      image: nginx-php
+      image: nginx-php-fpm
       state: started
       ports:
        - "1000:80"
-    tags: alpine
+    tags: nginx-php-fpm
 
   - name: Run `docker-compose up` 
     community.docker.docker_compose:
@@ -53,7 +53,44 @@
       state: present
     tags: compose
 
+  - name: Build nginx on alpine
+    community.docker.docker_image:
+      name: nginx-alpine
+      build:
+        path: /tmp/Git/Docker/alpinev2/nginx
+      source: build
+    tags: nginx-php-alpine
+
+  - name: Build php-fpm on alpine
+    community.docker.docker_image:
+      name: php-fpm-alpine
+      build:
+        path: /tmp/Git/Docker/alpinev2/php-fpm
+      source: build
+    tags: nginx-php-alpine
+
+  - name: Start nginx 
+    community.docker.docker_container:
+      name: nginx
+      images: nginx-alpine
+      networks:
+        - name: nginx-php-fpm
+      state: started
+      ports:
+       - "2000:80"
+    tags: nginx-php-alpine
+
+  - name: Start nginx
+    community.docker.docker_container:
+      name: php-fpm
+      images: php-fpm-alpine
+      networks:
+        - name: nginx-php-fpm
+      state: started
+    tags: nginx-php-alpine
+
   - name: Remove tmp directory whith Git
     ansible.builtin.file:
       path: /tmp/Git
       state: absent
+
