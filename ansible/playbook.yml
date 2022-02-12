@@ -42,3 +42,9 @@
       state: started
       ports:
        - "1000:80"
+
+  - name: Run `docker-compose up` 
+    community.docker.docker_compose:
+      project_src: /tmp/Git/Docker/compose
+      build: no
+      state: present
