@@ -98,5 +98,7 @@
     ansible.builtin.file:
       path: /tmp/Git
       state: absent
-    tags: compose
+    tags:
+     - nginx-php-alpine
+     - nginx-php-fpm
 
