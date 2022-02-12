@@ -35,6 +35,7 @@
       build:
         path: /tmp/Git/Docker/alpine
       source: build
+    tags: alpine
 
   - name: Start container nginx + php
     community.docker.docker_container:
@@ -43,12 +44,14 @@
       state: started
       ports:
        - "1000:80"
+    tags: alpine
 
   - name: Run `docker-compose up` 
     community.docker.docker_compose:
       project_src: /tmp/Git/Docker/compose
       build: no
       state: present
+    tags: compose
 
   - name: Remove tmp directory whith Git
     ansible.builtin.file:
