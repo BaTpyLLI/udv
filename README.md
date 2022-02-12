@@ -44,4 +44,5 @@ docker run -d -p `*порт хостовой машины*`:80 --name `*имя �
  - nginx-php-fpm - разворачивает alpine
 
 К примеру строка запуска ansible для того, чтобы развернуть только alpinev2 будет выглядить следующем образом:
-`ansible-playbook playbook.yml --skip-tags "compose, nginx-php-fpm"`
+
+_ansible-playbook playbook.yml --skip-tags "compose, nginx-php-fpm"_
