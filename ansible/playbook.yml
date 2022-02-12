@@ -69,21 +69,26 @@
       source: build
     tags: nginx-php-alpine
 
+  - name: Create a network 
+    community.docker.docker_network:
+      name: nginx-php-fpm
+    tags: nginx-php-alpine
+
   - name: Start nginx 
     community.docker.docker_container:
       name: nginx
-      images: nginx-alpine
+      image: nginx-alpine
+      state: started
       networks:
         - name: nginx-php-fpm
-      state: started
       ports:
        - "2000:80"
     tags: nginx-php-alpine
 
-  - name: Start nginx
+  - name: Start php-fpm
     community.docker.docker_container:
       name: php-fpm
-      images: php-fpm-alpine
+      image: php-fpm-alpine
       networks:
         - name: nginx-php-fpm
       state: started
@@ -93,4 +98,5 @@
     ansible.builtin.file:
       path: /tmp/Git
       state: absent
+    tags: compose
 
