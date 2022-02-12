@@ -1,6 +1,7 @@
 ---
 - hosts: udv
   become: yes
+  gather_facts: true
 
   tasks:
   - name: Add repo key docker
