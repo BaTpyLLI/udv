@@ -26,9 +26,9 @@ docker run -d -p `*порт хостовой машины*`:80 --name `*имя �
  - alpinev2:
    - _docker build -t nginx-alpinev2 ._
    - _docker build -t php-fpm ._
-         - docker network create nginx-php-fpm
-         - _docker run -d -p 2000:80 --network=nginx-php-fpm --name nginx-web nginx-alpinev2_
-         - _docker run -d --network=nginx-php-fpm --name php-fpm php-fpm_
+    - docker network create nginx-php-fpm
+    - _docker run -d -p 2000:80 --network=nginx-php-fpm --name nginx-web nginx-alpinev2_
+    - _docker run -d --network=nginx-php-fpm --name php-fpm php-fpm_
 
  - compose:
    - _docker-compose up -d_
