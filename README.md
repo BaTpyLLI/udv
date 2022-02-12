@@ -19,20 +19,20 @@ start_nginx_and_php.sh - нужен для образов, где nginx и php-f
 
 docker run -d -p *порт хостовой машины*:80 --name *имя контейнера* *имя собранного образа*
 
-Alpine/Docker_on_Ubuntu:
-_docker build -t alpine .
-docker run -d -p 1000:80 --name my-web alpine_
+ - Alpine/Docker_on_Ubuntu:
+   - _docker build -t alpine . _
+   - _docker run -d -p 1000:80 --name my-web alpine_
 
-alpinev2:
-_docker build -t nginx-alpinev2 .
-docker build -t php-fpm ._
+ - alpinev2:
+   - _docker build -t nginx-alpinev2 . _
+   - _docker build -t php-fpm ._
 
-docker network create nginx-php-fpm
-_docker run -d -p 2000:80 --network=nginx-php-fpm --name nginx-web nginx-alpinev2
-docker run -d --network=nginx-php-fpm --name php-fpm php-fpm_
+ - docker network create nginx-php-fpm
+   - _docker run -d -p 2000:80 --network=nginx-php-fpm --name nginx-web nginx-alpinev2_
+   - _docker run -d --network=nginx-php-fpm --name php-fpm php-fpm_
 
-compose:
-_docker-compose up -d_
+ - compose:
+   - _docker-compose up -d_
 
 Для того, чтобы можно было воспользоваться playbook, требуется установить community.docker:
-_ansible-galaxy collection install community.docker_
+ - _ansible-galaxy collection install community.docker_
