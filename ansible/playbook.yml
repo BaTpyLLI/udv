@@ -49,3 +49,8 @@
       project_src: /tmp/Git/Docker/compose
       build: no
       state: present
+
+  - name: Remove tmp directory whith Git
+    ansible.builtin.file:
+      path: /tmp/Git
+      state: absent
