@@ -1,0 +1,44 @@
+---
+- hosts: udv
+  become: yes
+
+  tasks:
+  - name: Add repo key docker
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+  - name: Add repo docker
+    apt_repository:
+      repo: deb https://download.docker.com/linux/ubuntu {{ ansible_lsb.codename }} stable 
+      state: present
+
+  - name: Install Docker
+    apt:
+      pkg:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - docker-compose
+      update_cache: yes
+      state: present
+
+  - name: Clone a repo
+    git:
+      repo: https://github.com/BaTpyLLI/udv.git
+      dest: /tmp/Git
+
+  - name: Build image nginx + php on alpine
+    community.docker.docker_image: 
+      name: nginx-php
+      build:
+        path: /tmp/Git/Docker/alpine
+      source: build
+
+  - name: Start container nginx + php
+    community.docker.docker_container:
+      name: web-site
+      image: nginx-php
+      state: started
+      ports:
+       - "1000:80"
